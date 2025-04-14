@@ -28,9 +28,14 @@ def Book_table_view(request):
         booking_date = request.POST.get("booking_date")
         
         if user_name and phone_number and email and total_person and booking_date:
-            data = BookTable(user_name=user_name, phone_number=phone_number, email= email, total_person=total_person, booking_date=booking_date)
-            data.save()
-            
+            BookTable.objects.create(
+                user_name=user_name,
+                phone_number=phone_number,
+                email=email,
+                total_person=total_person,
+                booking_date=booking_date
+            )
+            return redirect("book_table")  # 👈 Redirect after success
     return render(request, "book_table.html")
 
 def feedback(request):
