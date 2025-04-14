@@ -142,9 +142,4 @@ Feel free to **fork this repository** and submit a pull request with improvement
 
 ---
 
-## 📬 Contact
-- **Developer:** Abdullah Nazmus-Sakib
-- **GitHub:** [AbdullahRFA](https://github.com/AbdullahRFA)
-- **Portfolio:** [abdullah-nazmus-sakib-rfa.netlify.app](https://abdullah-nazmus-sakib-rfa.netlify.app/)
-- **Email:** [shakibrybmn@gmail.com)](mailto:shakibrybmn@gmail.com)
 
