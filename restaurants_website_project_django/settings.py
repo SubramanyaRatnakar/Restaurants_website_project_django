@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Restaurants_Projects.urls'
+ROOT_URLCONF = 'restaurants_website_project_django.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Restaurants_Projects.wsgi.application'
+WSGI_APPLICATION = 'restaurants_website_project_django.wsgi.application'
 
 
 # Database
