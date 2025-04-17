@@ -4,6 +4,8 @@ from django.shortcuts import render
 from .models import Items, Feedback
 from django.contrib.auth.models import User
 from django.utils.timezone import now, timedelta
+from django.db.models import Count
+
 # Create your views here.
 def Home_view(request):
     items = Items.objects.all()
