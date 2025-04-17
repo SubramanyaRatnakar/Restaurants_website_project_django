@@ -65,9 +65,24 @@ def dashboard(request):
 
     recent_feedbacks = Feedback.objects.order_by('-id')[:5]
 
-    # Use correct field: item_name
+    # Dummy popularity (keep as is)
     item_names = [item.item_name for item in Items.objects.all()]
-    item_counts = [item.id % 10 + 1 for item in Items.objects.all()]  # dummy data for popularity
+    item_counts = [item.id % 10 + 1 for item in Items.objects.all()]
+
+    # Feedback ratings breakdown
+    rating_data = Feedback.objects.values('rating').annotate(count=Count('id')).order_by('rating')
+
+    # Menu item category distribution
+    category_data = Items.objects.values('category').annotate(count=Count('id'))
+
+    # User growth last 4 weeks
+    user_growth = []
+    for i in range(4):
+        start = now() - timedelta(days=7*(i+1))
+        end = now() - timedelta(days=7*i)
+        count = User.objects.filter(date_joined__range=(start, end)).count()
+        user_growth.append({'week': f'Week-{4 - i}', 'count': count})
+    user_growth.reverse()
 
     context = {
         'total_users': total_users,
@@ -77,5 +92,8 @@ def dashboard(request):
         'recent_feedbacks': recent_feedbacks,
         'item_names': item_names,
         'item_counts': item_counts,
+        'rating_data': list(rating_data),
+        'category_data': list(category_data),
+        'user_growth': user_growth,
     }
     return render(request, 'dashboard.html', context)

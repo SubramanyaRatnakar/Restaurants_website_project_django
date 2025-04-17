@@ -52,6 +52,24 @@
         <canvas id="itemChart"></canvas>
     </div>
 
+    <!-- User Growth Chart -->
+<div class="card chart-container">
+    <h2>📅 User Growth (Last 4 Weeks)</h2>
+    <canvas id="growthChart"></canvas>
+</div>
+
+<!-- Feedback Rating Chart -->
+<div class="card chart-container">
+    <h2>⭐ Feedback Ratings</h2>
+    <canvas id="ratingChart"></canvas>
+</div>
+
+<!-- Category Chart -->
+<div class="card chart-container">
+    <h2>🍕 Menu Category Distribution</h2>
+    <canvas id="categoryChart"></canvas>
+</div>
+
     <script>
         const ctx = document.getElementById('itemChart').getContext('2d');
         const itemChart = new Chart(ctx, {
@@ -72,6 +90,65 @@
                 }
             }
         });
+
+        // Item Popularity Chart (already existing)
+    const ctx = document.getElementById('itemChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ item_names|safe }},
+            datasets: [{
+                label: 'Orders',
+                data: {{ item_counts|safe }},
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderRadius: 10
+            }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+    });
+
+    // User Growth Chart
+    const growthChart = new Chart(document.getElementById('growthChart'), {
+        type: 'line',
+        data: {
+            labels: {{ user_growth|map(attribute='week')|list|safe }},
+            datasets: [{
+                label: 'New Users',
+                data: {{ user_growth|map(attribute='count')|list|safe }},
+                borderColor: 'rgb(54, 162, 235)',
+                tension: 0.3,
+                fill: false
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // Feedback Ratings
+    const ratingChart = new Chart(document.getElementById('ratingChart'), {
+        type: 'bar',
+        data: {
+            labels: {{ rating_data|map(attribute='rating')|list|safe }},
+            datasets: [{
+                label: 'Feedback Count',
+                data: {{ rating_data|map(attribute='count')|list|safe }},
+                backgroundColor: 'rgba(255, 206, 86, 0.6)'
+            }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+    });
+
+    // Category Distribution
+    const categoryChart = new Chart(document.getElementById('categoryChart'), {
+        type: 'pie',
+        data: {
+            labels: {{ category_data|map(attribute='category')|list|safe }},
+            datasets: [{
+                data: {{ category_data|map(attribute='count')|list|safe }},
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8e44ad', '#2ecc71']
+            }]
+        },
+        options: { responsive: true }
+    });
     </script>
 </body>
 </html>
