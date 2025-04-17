@@ -91,9 +91,8 @@
             }
         });
 
-        // Item Popularity Chart (already existing)
-    const ctx = document.getElementById('itemChart').getContext('2d');
-    new Chart(ctx, {
+        // Item Popularity Chart
+    new Chart(document.getElementById('itemChart'), {
         type: 'bar',
         data: {
             labels: {{ item_names|safe }},
@@ -108,13 +107,13 @@
     });
 
     // User Growth Chart
-    const growthChart = new Chart(document.getElementById('growthChart'), {
+    new Chart(document.getElementById('growthChart'), {
         type: 'line',
         data: {
-            labels: {{ user_growth|map(attribute='week')|list|safe }},
+            labels: {{ user_growth_labels|safe }},
             datasets: [{
                 label: 'New Users',
-                data: {{ user_growth|map(attribute='count')|list|safe }},
+                data: {{ user_growth_counts|safe }},
                 borderColor: 'rgb(54, 162, 235)',
                 tension: 0.3,
                 fill: false
@@ -123,32 +122,32 @@
         options: { responsive: true }
     });
 
-    // Feedback Ratings
-    const ratingChart = new Chart(document.getElementById('ratingChart'), {
+    // Feedback Ratings Chart
+    new Chart(document.getElementById('ratingChart'), {
         type: 'bar',
         data: {
-            labels: {{ rating_data|map(attribute='rating')|list|safe }},
+            labels: {{ rating_labels|safe }},
             datasets: [{
                 label: 'Feedback Count',
-                data: {{ rating_data|map(attribute='count')|list|safe }},
+                data: {{ rating_counts|safe }},
                 backgroundColor: 'rgba(255, 206, 86, 0.6)'
             }]
         },
         options: { responsive: true, scales: { y: { beginAtZero: true } } }
     });
 
-    // Category Distribution
-    const categoryChart = new Chart(document.getElementById('categoryChart'), {
-    type: 'pie',
-    data: {
-        labels: {{ category_data|map(attribute='category__Category_name')|list|safe }},
-        datasets: [{
-            data: {{ category_data|map(attribute='count')|list|safe }},
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8e44ad', '#2ecc71']
-        }]
-    },
-    options: { responsive: true }
-});
+    // Category Distribution Chart
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'pie',
+        data: {
+            labels: {{ category_labels|safe }},
+            datasets: [{
+                data: {{ category_counts|safe }},
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8e44ad', '#2ecc71']
+            }]
+        },
+        options: { responsive: true }
+    });
 
     </script>
 </body>

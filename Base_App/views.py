@@ -60,6 +60,8 @@ def feedback(request):
 
 
 def dashboard(request):
+    from django.db.models import Count
+
     total_users = User.objects.count()
     new_users_week = User.objects.filter(date_joined__gte=now() - timedelta(days=7)).count()
     total_items = Items.objects.count()
@@ -67,25 +69,31 @@ def dashboard(request):
 
     recent_feedbacks = Feedback.objects.order_by('-id')[:5]
 
-    # Dummy popularity (keep as is)
     item_names = [item.item_name for item in Items.objects.all()]
     item_counts = [item.id % 10 + 1 for item in Items.objects.all()]
 
-    # Feedback ratings breakdown
     rating_data = Feedback.objects.values('rating').annotate(count=Count('id')).order_by('rating')
-
-    # Menu item category distribution
     category_data = Items.objects.values('category__Category_name').annotate(count=Count('id')).order_by()
 
-
-    # User growth last 4 weeks
-    user_growth = []
+    # Prepare user growth lists for template
+    user_growth_raw = []
     for i in range(4):
         start = now() - timedelta(days=7*(i+1))
         end = now() - timedelta(days=7*i)
         count = User.objects.filter(date_joined__range=(start, end)).count()
-        user_growth.append({'week': f'Week-{4 - i}', 'count': count})
-    user_growth.reverse()
+        user_growth_raw.append({'week': f'Week-{4 - i}', 'count': count})
+    user_growth_raw.reverse()
+
+    user_growth_labels = [u['week'] for u in user_growth_raw]
+    user_growth_counts = [u['count'] for u in user_growth_raw]
+
+    # For feedback chart
+    rating_labels = [r['rating'] for r in rating_data]
+    rating_counts = [r['count'] for r in rating_data]
+
+    # For category chart
+    category_labels = [c['category__Category_name'] for c in category_data]
+    category_counts = [c['count'] for c in category_data]
 
     context = {
         'total_users': total_users,
@@ -95,8 +103,11 @@ def dashboard(request):
         'recent_feedbacks': recent_feedbacks,
         'item_names': item_names,
         'item_counts': item_counts,
-        'rating_data': list(rating_data),
-        'category_data': list(category_data),
-        'user_growth': user_growth,
+        'user_growth_labels': user_growth_labels,
+        'user_growth_counts': user_growth_counts,
+        'rating_labels': rating_labels,
+        'rating_counts': rating_counts,
+        'category_labels': category_labels,
+        'category_counts': category_counts,
     }
     return render(request, 'dashboard.html', context)
