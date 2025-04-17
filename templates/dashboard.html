@@ -1,6 +1,23 @@
 {% extends 'base.html' %}
 {% block dashstatus %}active{% endblock dashstatus %}
 {% block mainblock %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Dashboard</h2>
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        <div class="card p-3 shadow rounded">
+          <h5 class="text-center">Chart 1 Title</h5>
+          <div id="chart1" style="height: 300px;"></div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-4">
+        <div class="card p-3 shadow rounded">
+          <h5 class="text-center">Chart 2 Title</h5>
+          <div id="chart2" style="height: 300px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 <h1>📊 Admin Dashboard</h1>
 <div class="metrics">
     <div class="card">👥 Total Users: <strong>{{ total_users }}</strong></div>
@@ -31,24 +48,24 @@
     </table>
 </div>
 
-<div class="card chart-container">
+<div class="card chart-container" style="height: 350px;">
     <h2>📈 Item Popularity</h2>
-    <canvas id="itemChart"></canvas>
+    <canvas id="itemChart" style="height: 100% !important;"></canvas>
 </div>
 
-<div class="card chart-container">
+<div class="card chart-container" style="height: 350px;">
     <h2>📅 User Growth (Last 4 Weeks)</h2>
-    <canvas id="growthChart"></canvas>
+    <canvas id="growthChart" style="height: 100% !important;"></canvas>
 </div>
 
-<div class="card chart-container">
+<div class="card chart-container" style="height: 350px;">
     <h2>⭐ Feedback Ratings</h2>
-    <canvas id="ratingChart"></canvas>
+    <canvas id="ratingChart" style="height: 100% !important;"></canvas>
 </div>
 
-<div class="card chart-container">
+<div class="card chart-container" style="height: 350px;">
     <h2>🍕 Menu Category Distribution</h2>
-    <canvas id="categoryChart"></canvas>
+    <canvas id="categoryChart" style="height: 100% !important;"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -64,7 +81,14 @@
                 borderRadius: 10
             }]
         },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+        options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        y: { beginAtZero: true }
+    }
+}
+
     });
 
     new Chart(document.getElementById('growthChart'), {
@@ -79,7 +103,14 @@
                 fill: false
             }]
         },
-        options: { responsive: true }
+        options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        y: { beginAtZero: true }
+    }
+}
+
     });
 
     new Chart(document.getElementById('ratingChart'), {
@@ -92,7 +123,14 @@
                 backgroundColor: 'rgba(255, 206, 86, 0.6)'
             }]
         },
-        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+        options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        y: { beginAtZero: true }
+    }
+}
+
     });
 
     new Chart(document.getElementById('categoryChart'), {
@@ -104,7 +142,14 @@
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8e44ad', '#2ecc71']
             }]
         },
-        options: { responsive: true }
+        options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+        y: { beginAtZero: true }
+    }
+}
+
     });
 </script>
 {% endblock %}
