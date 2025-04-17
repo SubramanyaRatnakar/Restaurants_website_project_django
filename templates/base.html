@@ -97,7 +97,12 @@
                 <li class="nav-item {% block fedstatus %}{% endblock fedstatus %}">
                   <a class="nav-link" href="{% url 'feedback' %}">Feedback</a>
                 </li>
+                <li class="nav-item {% block dashstatus %}{% endblock dashstatus %}">
+                  <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                </li>
+                
               </ul>
+
               <div class="user_option">
                 {% comment %} <a href="" class="user_link">
                   <i class="fa fa-user" aria-hidden="true"></i>
