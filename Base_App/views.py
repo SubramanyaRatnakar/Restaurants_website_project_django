@@ -1,5 +1,9 @@
 from django.shortcuts import render,HttpResponse,redirect
 from Base_App.models import ItemList,Items,AboutUs,Feedback,BookTable
+from django.shortcuts import render
+from .models import Items, Feedback
+from django.contrib.auth.models import User
+from django.utils.timezone import now, timedelta
 # Create your views here.
 def Home_view(request):
     items = Items.objects.all()
@@ -53,4 +57,26 @@ def feedback(request):
     return render(request, "feedback.html")
 
 
+def dashboard(request):
+    total_users = User.objects.count()
+    new_users_week = User.objects.filter(date_joined__gte=now() - timedelta(days=7)).count()
+    total_items = Items.objects.count()
+    total_feedbacks = Feedback.objects.count()
 
+    # Example: Top 5 most recent feedbacks
+    recent_feedbacks = Feedback.objects.order_by('-id')[:5]
+
+    # Item popularity (dummy count - assuming each Item has a field 'orders')
+    item_names = [item.name for item in Items.objects.all()]
+    item_counts = [item.orders if hasattr(item, 'orders') else 0 for item in Items.objects.all()]
+
+    context = {
+        'total_users': total_users,
+        'new_users_week': new_users_week,
+        'total_items': total_items,
+        'total_feedbacks': total_feedbacks,
+        'recent_feedbacks': recent_feedbacks,
+        'item_names': item_names,
+        'item_counts': item_counts,
+    }
+    return render(request, 'dashboard.html', context)

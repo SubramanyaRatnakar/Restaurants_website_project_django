@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 30px; background: #fafafa; }
+        h1 { color: #2c3e50; }
+        .metrics { display: flex; gap: 30px; margin-bottom: 30px; }
+        .card {
+            background: white; padding: 20px; border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex: 1;
+        }
+        .chart-container { margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+    </style>
+</head>
+<body>
+    <h1>📊 Admin Dashboard</h1>
+    <div class="metrics">
+        <div class="card">👥 Total Users: <strong>{{ total_users }}</strong></div>
+        <div class="card">🆕 New Users This Week: <strong>{{ new_users_week }}</strong></div>
+        <div class="card">🍽️ Total Items: <strong>{{ total_items }}</strong></div>
+        <div class="card">💬 Feedbacks: <strong>{{ total_feedbacks }}</strong></div>
+    </div>
+
+    <div class="card">
+        <h2>🕒 Recent Feedback</h2>
+        <table>
+            <thead><tr><th>User</th><th>Comment</th><th>Image</th></tr></thead>
+            <tbody>
+                {% for fb in recent_feedbacks %}
+                    <tr>
+                        <td>{{ fb.user_name }}</td>
+                        <td>{{ fb.comment|truncatechars:100 }}</td>
+                        <td>
+                            {% if fb.image %}
+                                <img src="{{ fb.image.url }}" width="50" />
+                            {% else %}
+                                No image
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card chart-container">
+        <h2>📈 Item Popularity</h2>
+        <canvas id="itemChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('itemChart').getContext('2d');
+        const itemChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ item_names|safe }},
+                datasets: [{
+                    label: 'Orders',
+                    data: {{ item_counts|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderRadius: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
