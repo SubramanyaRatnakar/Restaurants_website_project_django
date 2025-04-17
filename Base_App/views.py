@@ -68,7 +68,7 @@ def dashboard(request):
 
     # Item popularity (dummy count - assuming each Item has a field 'orders')
     item_names = [item.name for item in Items.objects.all()]
-    item_counts = [item.orders if hasattr(item, 'orders') else 0 for item in Items.objects.all()]
+    item_counts = [item.id for item in Items.objects.all()]  # Use item.id as a dummy count
 
     context = {
         'total_users': total_users,
