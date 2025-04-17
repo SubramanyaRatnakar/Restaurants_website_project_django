@@ -1004,10 +1004,12 @@ a:focus {
 .footer_section .footer-info p a {
   color: inherit;
 }
-
 .chart-container {
   position: relative;
   height: 350px;
+}
+.chart-container canvas {
+  height: 100% !important;
 }
 
 /*# sourceMappingURL=style.css.map */
