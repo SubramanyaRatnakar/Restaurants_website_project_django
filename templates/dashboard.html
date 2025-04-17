@@ -1,23 +1,7 @@
 {% extends 'base.html' %}
 {% block dashstatus %}active{% endblock dashstatus %}
 {% block mainblock %}
-<div class="container my-5">
-    <h2 class="text-center mb-4">Dashboard</h2>
-    <div class="row">
-      <div class="col-md-6 mb-4">
-        <div class="card p-3 shadow rounded">
-          <h5 class="text-center">Chart 1 Title</h5>
-          <div id="chart1" style="height: 300px;"></div>
-        </div>
-      </div>
-      <div class="col-md-6 mb-4">
-        <div class="card p-3 shadow rounded">
-          <h5 class="text-center">Chart 2 Title</h5>
-          <div id="chart2" style="height: 300px;"></div>
-        </div>
-      </div>
-    </div>
-  </div>
+
 <h1>📊 Admin Dashboard</h1>
 <div class="metrics">
     <div class="card">👥 Total Users: <strong>{{ total_users }}</strong></div>
