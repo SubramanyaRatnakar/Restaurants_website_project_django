@@ -75,7 +75,8 @@ def dashboard(request):
     rating_data = Feedback.objects.values('rating').annotate(count=Count('id')).order_by('rating')
 
     # Menu item category distribution
-    category_data = Items.objects.values('category').annotate(count=Count('id'))
+    category_data = Items.objects.values('category__Category_name').annotate(count=Count('id')).order_by()
+
 
     # User growth last 4 weeks
     user_growth = []

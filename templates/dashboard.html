@@ -139,16 +139,17 @@
 
     // Category Distribution
     const categoryChart = new Chart(document.getElementById('categoryChart'), {
-        type: 'pie',
-        data: {
-            labels: {{ category_data|map(attribute='category')|list|safe }},
-            datasets: [{
-                data: {{ category_data|map(attribute='count')|list|safe }},
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8e44ad', '#2ecc71']
-            }]
-        },
-        options: { responsive: true }
-    });
+    type: 'pie',
+    data: {
+        labels: {{ category_data|map(attribute='category__Category_name')|list|safe }},
+        datasets: [{
+            data: {{ category_data|map(attribute='count')|list|safe }},
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#8e44ad', '#2ecc71']
+        }]
+    },
+    options: { responsive: true }
+});
+
     </script>
 </body>
 </html>
