@@ -63,12 +63,11 @@ def dashboard(request):
     total_items = Items.objects.count()
     total_feedbacks = Feedback.objects.count()
 
-    # Example: Top 5 most recent feedbacks
     recent_feedbacks = Feedback.objects.order_by('-id')[:5]
 
-    # Item popularity (dummy count - assuming each Item has a field 'orders')
-    item_names = [item.name for item in Items.objects.all()]
-    item_counts = [item.id for item in Items.objects.all()]  # Use item.id as a dummy count
+    # Use correct field: item_name
+    item_names = [item.item_name for item in Items.objects.all()]
+    item_counts = [item.id % 10 + 1 for item in Items.objects.all()]  # dummy data for popularity
 
     context = {
         'total_users': total_users,
